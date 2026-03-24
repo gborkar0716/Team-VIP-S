@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VerbaCourt - Smart Multilingual Court Transcription System</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- PAGE 1: Case Setup Page -->
+    <div id="page1" class="page active">
+        <div class="card setup-card">
+            <h1 class="logo">⚖️ Nyay Lekhak</h1>
+            <p class="subtitle">Smart Multilingual Court Transcription System</p>
+
+            <div class="form-group">
+                <label for="caseTitle">Case Title</label>
+                <input type="text" id="caseTitle" placeholder="e.g., State vs. Sharma" required>
+            </div>
+
+            <div class="form-group">
+                <label for="caseNumber">Case Number</label>
+                <input type="text" id="caseNumber" placeholder="e.g., FIR No. 123/2026" required>
+            </div>
+
+            <div class="form-group">
+                <label for="suspectName">Suspect Name</label>
+                <input type="text" id="suspectName" placeholder="e.g., Rahul Sharma" required>
+            </div>
+
+            <div class="form-group">
+                <label>Select Languages</label>
+                <div class="language-selection" id="languageSelection">
+                    <label><input type="checkbox" value="hi-IN" data-name="Hindi"> Hindi</label>
+                    <label><input type="checkbox" value="en-IN" data-name="English"> English</label>
+                    <label><input type="checkbox" value="mr-IN" data-name="Marathi"> Marathi</label>
+                    <label><input type="checkbox" value="ta-IN" data-name="Tamil"> Tamil</label>
+                    <label><input type="checkbox" value="te-IN" data-name="Telugu"> Telugu</label>
+                    <label><input type="checkbox" value="bn-IN" data-name="Bengali"> Bengali</label>
+                    <label><input type="checkbox" value="gu-IN" data-name="Gujarati"> Gujarati</label>
+                    <label><input type="checkbox" value="kn-IN" data-name="Kannada"> Kannada</label>
+                    <label><input type="checkbox" value="ml-IN" data-name="Malayalam"> Malayalam</label>
+                    <label><input type="checkbox" value="pa-IN" data-name="Punjabi"> Punjabi</label>
+                    <!-- Missing exact codes for Odia, Assamese in generic Web Speech API, using best-effort standard ones -->
+                    <label><input type="checkbox" value="or-IN" data-name="Odia"> Odia</label>
+                    <label><input type="checkbox" value="as-IN" data-name="Assamese"> Assamese</label>
+                    <label><input type="checkbox" value="ur-IN" data-name="Urdu"> Urdu</label>
+                </div>
+            </div>
+
+            <button class="btn btn-primary" onclick="goToRecordingPage()">Start Recording</button>
+        </div>
+    </div>
+
+    <!-- PAGE 2: Recording & Transcription Page -->
+    <div id="page2" class="page">
+        <div class="dashboard">
+            <header class="header">
+                <div>
+                    <h1 class="logo">⚖️ Nyay Lekhak</h1>
+                    <div class="case-meta">
+                        <span class="badge" id="displayCaseNumber"></span>
+                        <span class="meta-item"><b>Title:</b> <span id="displayCaseTitle"></span></span>
+                        <span class="meta-item"><b>Suspect:</b> <span id="displaySuspectName"></span></span>
+                    </div>
+                </div>
+                <div class="controls-top">
+                    <button class="btn btn-outline" onclick="goBack()">🔙 Setup</button>
+                    <button class="btn btn-secondary" onclick="downloadTranscript()">💾 Download</button>
+                </div>
+            </header>
+
+            <main class="main-content">
+                <aside class="sidebar">
+                    <div class="control-panel">
+                        <h3>Recording Controls</h3>
+
+                        <div class="form-group">
+                            <label>Current Speaker</label>
+                            <select id="speakerSelect" class="speaker-judge">
+                                <option value="judge">👨‍⚖️ Judge</option>
+                                <option value="advocate">🧑‍💼 Advocate</option>
+                                <option value="witness">👤 Witness</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Current Language</label>
+                            <select id="recordingLanguage">
+                                <!-- Populated dynamically based on Page 1 selection -->
+                            </select>
+                            <p class="help-text">Switch language to change recognition engine.</p>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button id="btnStart" class="btn btn-primary" onclick="startRecording()">▶️ Start</button>
+                            <button id="btnPause" class="btn btn-warning" onclick="togglePauseRecording()" disabled>⏸️
+                                Pause</button>
+                            <button id="btnStop" class="btn btn-danger" onclick="stopRecording()" disabled>⏹️
+                                Stop</button>
+                        </div>
+
+                        <div class="status-indicator">
+                            <span id="recordingStatus" class="status idle">Idle</span>
+                            <span id="listeningLang" class="lang-badge"></span>
+                        </div>
+
+                        <button class="btn btn-outline" onclick="generateSummary()"
+                            style="width: 100%; margin-top: 15px;">✨ Generate Summary</button>
+                    </div>
+                </aside>
+
+                <section class="transcript-section">
+                    <div class="transcript-header">
+                        <h2>Real-time Transcription</h2>
+                    </div>
+                    <div id="transcriptOutput" class="transcript-container">
+                        <!-- Transcript lines will appear here -->
+                        <div class="placeholder-text">Transcripts will appear here once recording starts...</div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- Modal for Summary -->
+    <div id="summaryModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h2>Case Summary</h2>
+            <div id="summaryContent" class="summary-text">
+                <p>Generating summary based on recorded transcripts...</p>
+                <ul id="summaryList">
+                    <!-- mock summary items -->
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
