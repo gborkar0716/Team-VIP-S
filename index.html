@@ -1,147 +1,286 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VerbaCourt - Smart Multilingual Court Transcription System</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>Nyay Lekhak — Smart Court Transcription System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-    <!-- PAGE 1: Case Setup Page -->
+    <!-- Ambient Background Orbs -->
+    <div class="ambient-layer" aria-hidden="true">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+        <div class="orb orb-3"></div>
+    </div>
+
+    <!-- ===================== PAGE 1: Case Setup ===================== -->
     <div id="page1" class="page active">
-        <div class="card setup-card">
-            <h1 class="logo">⚖️ Nyay Lekhak</h1>
-            <p class="subtitle">Smart Multilingual Court Transcription System</p>
+        <div class="setup-wrapper">
 
-            <div class="form-group">
-                <label for="caseTitle">Case Title</label>
-                <input type="text" id="caseTitle" placeholder="e.g., State vs. Sharma" required>
-            </div>
-
-            <div class="form-group">
-                <label for="caseNumber">Case Number</label>
-                <input type="text" id="caseNumber" placeholder="e.g., FIR No. 123/2026" required>
-            </div>
-
-            <div class="form-group">
-                <label for="suspectName">Suspect Name</label>
-                <input type="text" id="suspectName" placeholder="e.g., Rahul Sharma" required>
-            </div>
-
-            <div class="form-group">
-                <label>Select Languages</label>
-                <div class="language-selection" id="languageSelection">
-                    <label><input type="checkbox" value="hi-IN" data-name="Hindi"> Hindi</label>
-                    <label><input type="checkbox" value="en-IN" data-name="English"> English</label>
-                    <label><input type="checkbox" value="mr-IN" data-name="Marathi"> Marathi</label>
-                    <label><input type="checkbox" value="ta-IN" data-name="Tamil"> Tamil</label>
-                    <label><input type="checkbox" value="te-IN" data-name="Telugu"> Telugu</label>
-                    <label><input type="checkbox" value="bn-IN" data-name="Bengali"> Bengali</label>
-                    <label><input type="checkbox" value="gu-IN" data-name="Gujarati"> Gujarati</label>
-                    <label><input type="checkbox" value="kn-IN" data-name="Kannada"> Kannada</label>
-                    <label><input type="checkbox" value="ml-IN" data-name="Malayalam"> Malayalam</label>
-                    <label><input type="checkbox" value="pa-IN" data-name="Punjabi"> Punjabi</label>
-                    <!-- Missing exact codes for Odia, Assamese in generic Web Speech API, using best-effort standard ones -->
-                    <label><input type="checkbox" value="or-IN" data-name="Odia"> Odia</label>
-                    <label><input type="checkbox" value="as-IN" data-name="Assamese"> Assamese</label>
-                    <label><input type="checkbox" value="ur-IN" data-name="Urdu"> Urdu</label>
+            <!-- Hero Brand -->
+            <div class="brand-hero">
+                <div class="brand-emblem">
+                    <i class="fa-solid fa-scale-balanced"></i>
+                </div>
+                <h1 class="brand-name">Nyay Lekhak</h1>
+                <p class="brand-tagline">Smart Court Transcription System</p>
+                <div class="brand-pills">
+                    <span class="pill"><i class="fa-solid fa-microphone-lines"></i> AI-Powered</span>
+                    <span class="pill"><i class="fa-solid fa-language"></i> Multilingual</span>
+                    <span class="pill"><i class="fa-solid fa-bolt"></i> Real-time</span>
                 </div>
             </div>
 
-            <button class="btn btn-primary" onclick="goToRecordingPage()">Start Recording</button>
+            <!-- Setup Card -->
+            <div class="glass-card setup-card">
+                <div class="card-header-row">
+                    <div class="step-indicator">
+                        <span class="step active">1</span>
+                        <span class="step-line"></span>
+                        <span class="step">2</span>
+                    </div>
+                    <span class="card-label">Case Registration</span>
+                </div>
+
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="caseTitle">
+                            <i class="fa-solid fa-gavel"></i> Case Title
+                        </label>
+                        <input type="text" id="caseTitle" placeholder="e.g., State vs. Sharma" autocomplete="off">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="caseNumber">
+                            <i class="fa-solid fa-hashtag"></i> Case Number
+                        </label>
+                        <input type="text" id="caseNumber" placeholder="e.g., FIR No. 123/2026" autocomplete="off">
+                    </div>
+
+                    <div class="form-group form-full">
+                        <label for="suspectName">
+                            <i class="fa-solid fa-user"></i> Accused / Suspect Name
+                        </label>
+                        <input type="text" id="suspectName" placeholder="e.g., Rahul Sharma" autocomplete="off">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fa-solid fa-earth-asia"></i> Select Languages for Transcription</label>
+                    <div class="language-grid" id="languageSelection">
+                        <label class="lang-chip"><input type="checkbox" value="hi-IN" data-name="Hindi"><span><span class="lang-flag">🇮🇳</span> Hindi</span></label>
+                        <label class="lang-chip"><input type="checkbox" value="en-IN" data-name="English"><span><span class="lang-flag">🇬🇧</span> English</span></label>
+                        <label class="lang-chip"><input type="checkbox" value="mr-IN" data-name="Marathi"><span><span class="lang-flag">🟠</span> Marathi</span></label>
+                        <label class="lang-chip"><input type="checkbox" value="ta-IN" data-name="Tamil"><span><span class="lang-flag">🟡</span> Tamil</span></label>
+                        <label class="lang-chip"><input type="checkbox" value="te-IN" data-name="Telugu"><span><span class="lang-flag">🔵</span> Telugu</span></label>
+                        <label class="lang-chip"><input type="checkbox" value="bn-IN" data-name="Bengali"><span><span class="lang-flag">🟢</span> Bengali</span></label>
+                        <label class="lang-chip"><input type="checkbox" value="gu-IN" data-name="Gujarati"><span><span class="lang-flag">🟣</span> Gujarati</span></label>
+                        <label class="lang-chip"><input type="checkbox" value="kn-IN" data-name="Kannada"><span><span class="lang-flag">🔴</span> Kannada</span></label>
+                        <label class="lang-chip"><input type="checkbox" value="ml-IN" data-name="Malayalam"><span><span class="lang-flag">🟤</span> Malayalam</span></label>
+                        <label class="lang-chip"><input type="checkbox" value="pa-IN" data-name="Punjabi"><span><span class="lang-flag">🟡</span> Punjabi</span></label>
+                        <label class="lang-chip"><input type="checkbox" value="or-IN" data-name="Odia"><span><span class="lang-flag">🟠</span> Odia</span></label>
+                        <label class="lang-chip"><input type="checkbox" value="as-IN" data-name="Assamese"><span><span class="lang-flag">🟢</span> Assamese</span></label>
+                        <label class="lang-chip"><input type="checkbox" value="ur-IN" data-name="Urdu"><span><span class="lang-flag">🟤</span> Urdu</span></label>
+                    </div>
+                </div>
+
+                <button class="btn btn-cta" onclick="goToRecordingPage()">
+                    <span>Begin Session</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
         </div>
     </div>
 
-    <!-- PAGE 2: Recording & Transcription Page -->
+    <!-- ===================== PAGE 2: Recording Dashboard ===================== -->
     <div id="page2" class="page">
-        <div class="dashboard">
-            <header class="header">
-                <div>
-                    <h1 class="logo">⚖️ Nyay Lekhak</h1>
-                    <div class="case-meta">
-                        <span class="badge" id="displayCaseNumber"></span>
-                        <span class="meta-item"><b>Title:</b> <span id="displayCaseTitle"></span></span>
-                        <span class="meta-item"><b>Suspect:</b> <span id="displaySuspectName"></span></span>
+        <div class="dashboard-layout">
+
+            <!-- Top Navbar -->
+            <header class="topbar">
+                <div class="topbar-left">
+                    <div class="topbar-brand">
+                        <div class="topbar-icon"><i class="fa-solid fa-scale-balanced"></i></div>
+                        <div>
+                            <span class="topbar-name">Nyay Lekhak</span>
+                            <span class="topbar-sub">Smart Court Transcription</span>
+                        </div>
+                    </div>
+                    <div class="case-info-strip">
+                        <div class="case-badge" id="displayCaseNumber"></div>
+                        <div class="case-detail"><i class="fa-solid fa-gavel"></i> <span id="displayCaseTitle"></span></div>
+                        <div class="case-detail"><i class="fa-solid fa-user-shield"></i> <span id="displaySuspectName"></span></div>
                     </div>
                 </div>
-                <div class="controls-top">
-                    <button class="btn btn-outline" onclick="goBack()">🔙 Setup</button>
-                    <button class="btn btn-secondary" onclick="downloadTranscript()">💾 Download</button>
+                <div class="topbar-actions">
+                    <button class="btn btn-ghost" onclick="goBack()">
+                        <i class="fa-solid fa-chevron-left"></i> Back
+                    </button>
+                    <button class="btn btn-download" onclick="downloadTranscript()">
+                        <i class="fa-solid fa-download"></i> Export
+                    </button>
                 </div>
             </header>
 
-            <main class="main-content">
-                <aside class="sidebar">
-                    <div class="control-panel">
-                        <h3>Recording Controls</h3>
+            <!-- Main Area -->
+            <div class="main-area">
 
-                        <div class="form-group">
-                            <label>Current Speaker</label>
-                            <select id="speakerSelect" class="speaker-judge">
-                                <option value="judge">👨‍⚖️ Judge</option>
-                                <option value="advocate">🧑‍💼 Advocate</option>
-                                <option value="witness">👤 Witness</option>
-                            </select>
+                <!-- LEFT: Control Panel -->
+                <aside class="control-sidebar">
+
+                    <!-- Status Card -->
+                    <div class="status-card" id="statusCard">
+                        <div class="status-ring" id="statusRing">
+                            <div class="status-ring-inner">
+                                <i class="fa-solid fa-microphone" id="statusIcon"></i>
+                            </div>
                         </div>
-
-                        <div class="form-group">
-                            <label>Current Language</label>
-                            <select id="recordingLanguage">
-                                <!-- Populated dynamically based on Page 1 selection -->
-                            </select>
-                            <p class="help-text">Switch language to change recognition engine.</p>
+                        <div class="status-text">
+                            <span id="recordingStatus" class="status-label idle">Idle</span>
+                            <span id="listeningLang" class="status-lang"></span>
                         </div>
-
-                        <div class="action-buttons">
-                            <button id="btnStart" class="btn btn-primary" onclick="startRecording()">▶️ Start</button>
-                            <button id="btnPause" class="btn btn-warning" onclick="togglePauseRecording()" disabled>⏸️
-                                Pause</button>
-                            <button id="btnStop" class="btn btn-danger" onclick="stopRecording()" disabled>⏹️
-                                Stop</button>
-                        </div>
-
-                        <div class="status-indicator">
-                            <span id="recordingStatus" class="status idle">Idle</span>
-                            <span id="listeningLang" class="lang-badge"></span>
-                        </div>
-
-                        <button class="btn btn-outline" onclick="generateSummary()"
-                            style="width: 100%; margin-top: 15px;">✨ Generate Summary</button>
                     </div>
+
+                    <!-- Speaker Select -->
+                    <div class="control-section">
+                        <div class="section-label"><i class="fa-solid fa-users"></i> Active Speaker</div>
+                        <div class="speaker-tabs" id="speakerTabs">
+                            <button class="speaker-tab active judge-tab" data-role="judge" onclick="setSpeaker(this)">
+                                <i class="fa-solid fa-person-chalkboard"></i>
+                                <span>Judge</span>
+                            </button>
+                            <button class="speaker-tab advocate-tab" data-role="advocate" onclick="setSpeaker(this)">
+                                <i class="fa-solid fa-briefcase"></i>
+                                <span>Advocate</span>
+                            </button>
+                            <button class="speaker-tab witness-tab" data-role="witness" onclick="setSpeaker(this)">
+                                <i class="fa-solid fa-person"></i>
+                                <span>Witness</span>
+                            </button>
+                        </div>
+                        <!-- Hidden select for backward compatibility with JS -->
+                        <select id="speakerSelect" style="display:none;">
+                            <option value="judge">👨‍⚖️ Judge</option>
+                            <option value="advocate">🧑‍💼 Advocate</option>
+                            <option value="witness">👤 Witness</option>
+                        </select>
+                    </div>
+
+                    <!-- Language Select -->
+                    <div class="control-section">
+                        <div class="section-label"><i class="fa-solid fa-language"></i> Language</div>
+                        <div class="styled-select-wrap">
+                            <select id="recordingLanguage" class="styled-select"></select>
+                            <i class="fa-solid fa-chevron-down select-icon"></i>
+                        </div>
+                        <p class="help-text">Switching language restarts recognition engine.</p>
+                    </div>
+
+                    <!-- Recording Buttons -->
+                    <div class="control-section">
+                        <div class="section-label"><i class="fa-solid fa-sliders"></i> Controls</div>
+                        <div class="rec-buttons">
+                            <button id="btnStart" class="rec-btn start-btn" onclick="startRecording()">
+                                <i class="fa-solid fa-play"></i>
+                                <span>Start</span>
+                            </button>
+                            <button id="btnPause" class="rec-btn pause-btn" onclick="togglePauseRecording()" disabled>
+                                <i class="fa-solid fa-pause"></i>
+                                <span>Pause</span>
+                            </button>
+                            <button id="btnStop" class="rec-btn stop-btn" onclick="stopRecording()" disabled>
+                                <i class="fa-solid fa-stop"></i>
+                                <span>Stop</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Summary Button -->
+                    <button class="btn btn-summary" onclick="generateSummary()">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        Generate AI Summary
+                    </button>
+
+                    <!-- Stats -->
+                    <div class="stats-strip">
+                        <div class="stat-item">
+                            <span class="stat-num" id="statEntries">0</span>
+                            <span class="stat-lbl">Entries</span>
+                        </div>
+                        <div class="stat-sep"></div>
+                        <div class="stat-item">
+                            <span class="stat-num" id="statWords">0</span>
+                            <span class="stat-lbl">Words</span>
+                        </div>
+                        <div class="stat-sep"></div>
+                        <div class="stat-item">
+                            <span class="stat-num" id="statTime">0:00</span>
+                            <span class="stat-lbl">Duration</span>
+                        </div>
+                    </div>
+
                 </aside>
 
-                <section class="transcript-section">
-                    <div class="transcript-header">
-                        <h2>Real-time Transcription</h2>
+                <!-- RIGHT: Transcript Area -->
+                <section class="transcript-area">
+                    <div class="transcript-topbar">
+                        <div class="transcript-title">
+                            <i class="fa-solid fa-scroll"></i>
+                            <span>Live Transcript</span>
+                            <span class="live-dot" id="liveDot"></span>
+                        </div>
+                        <div class="transcript-legend">
+                            <span class="legend-item judge-legend"><i class="fa-solid fa-circle"></i> Judge</span>
+                            <span class="legend-item advocate-legend"><i class="fa-solid fa-circle"></i> Advocate</span>
+                            <span class="legend-item witness-legend"><i class="fa-solid fa-circle"></i> Witness</span>
+                        </div>
                     </div>
-                    <div id="transcriptOutput" class="transcript-container">
-                        <!-- Transcript lines will appear here -->
-                        <div class="placeholder-text">Transcripts will appear here once recording starts...</div>
+
+                    <div id="transcriptOutput" class="transcript-feed">
+                        <div class="empty-state" id="emptyState">
+                            <div class="empty-icon"><i class="fa-solid fa-wave-square"></i></div>
+                            <p class="empty-title">Ready to Record</p>
+                            <p class="empty-sub">Press Start and begin speaking. Transcripts will appear here in real time.</p>
+                        </div>
                     </div>
                 </section>
-            </main>
+
+            </div>
         </div>
     </div>
 
-    <!-- Modal for Summary -->
-    <div id="summaryModal" class="modal">
-        <div class="modal-content">
-            <span class="close-btn" onclick="closeModal()">&times;</span>
-            <h2>Case Summary</h2>
-            <div id="summaryContent" class="summary-text">
-                <p>Generating summary based on recorded transcripts...</p>
-                <ul id="summaryList">
-                    <!-- mock summary items -->
-                </ul>
+    <!-- ===================== Summary Modal ===================== -->
+    <div id="summaryModal" class="modal-overlay" onclick="handleOverlayClick(event)">
+        <div class="modal-box">
+            <div class="modal-header">
+                <div class="modal-title-wrap">
+                    <div class="modal-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+                    <div>
+                        <h2 class="modal-title">Case Summary</h2>
+                        <p class="modal-sub">AI-generated overview</p>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div id="summaryContent" class="modal-body">
+                <div class="summary-loading" id="summaryLoader">
+                    <div class="loader-dots">
+                        <span></span><span></span><span></span>
+                    </div>
+                    <p>Analyzing transcript…</p>
+                </div>
+                <ul id="summaryList" class="summary-list"></ul>
             </div>
         </div>
     </div>
 
     <script src="script.js"></script>
 </body>
-
 </html>
